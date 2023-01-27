@@ -23,6 +23,10 @@ header.banner {
 /****NAVIGATION****/
 nav.sidebar {
     grid-area: sidebar;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
 }
 
 ul {
@@ -36,8 +40,55 @@ li#nav-item {
     padding: .5rem;
 }
 
+button#btn-add-todo {
+    margin: 2rem;
+    padding: 1rem;
+}
+
 /****MAIN CONTENT****/
 .main-content-container {
     grid-area: main;
     padding: 1rem;
+}
+
+.main-content {
+    height: 100%;
+}
+
+.todo {
+    display: flex;
+    gap: 1rem;
+}
+
+/****ADD TODO OVERLAY****/
+
+.overlay-container  {
+    width: 100vw;
+    min-height: 100vh;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.overlay-content {
+    display: flex;
+    min-height: 50%;
+    width: 30%;
+    position: absolute;
+    z-index: 1;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid red;
+    background-color: beige;
+}
+
+form#frm-add-todo {
+    height: 100%;
+    width: 90%;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: 2px dotted red;
 }
