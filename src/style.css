@@ -62,13 +62,19 @@ button#btn-add-todo {
 
 /****ADD TODO OVERLAY****/
 
-.overlay-container  {
+.overlay-container {
     width: 100vw;
     min-height: 100vh;
-    position: absolute;
-    display: flex;
+    position: fixed;
+    z-index: 2;
+    display: none;
     justify-content: center;
     align-items: center;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.overlay-container-show {
+    display: flex;
 }
 
 .overlay-content {
@@ -76,19 +82,27 @@ button#btn-add-todo {
     min-height: 50%;
     width: 30%;
     position: absolute;
-    z-index: 1;
     align-items: center;
     justify-content: center;
-    border: 2px solid red;
     background-color: beige;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+form#frm-add-todo, .btn-overlay-container {
+    width: 90%;
 }
 
 form#frm-add-todo {
-    height: 100%;
-    width: 90%;
-    position: absolute;
+    min-height: 25vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     border: 2px dotted red;
+}
+
+.btn-overlay-container {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
 }

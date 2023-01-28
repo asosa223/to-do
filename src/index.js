@@ -6,9 +6,9 @@
         // Add remove button
             // When clicked, removes task from display/array
     // Update to-do form
-        // Update form to have required to-do properties
-        // Create form submit button
-        // Create form cancel button
+        // Update form to have required to-do properties ✅
+        // Create form submit button ✅
+        // Create form cancel button ✅
     // Create function to take form input and create to-do object
         // when to-do form button is clicked, pass form input into to-do object
         // push into to-do list array
@@ -32,6 +32,16 @@ function handleForm() {
     overlayContent.classList.add("overlay-content")
     overlayContainer.appendChild(overlayContent);
 
+    // When add to-do button is clicked, add to-do overlay form is displayed 
+    const handleOverlay = () => {
+        const overlayBtn = document.querySelector("#btn-add-todo");
+
+        overlayBtn.addEventListener('click', () => {
+            overlayContainer.classList.add("overlay-container-show");
+        })
+
+    }
+
     const Form = () => {
         // Create form
         const form = document.createElement("form");
@@ -50,24 +60,62 @@ function handleForm() {
         }
 
         // Create form element
-        const createFormItem = (element, type, name) => {
+        const createFormItem = (element, name, type) => {
             const el = document.createElement(element);
-            el.setAttribute("type", type);
+            if (type !== undefined) {
+                el.setAttribute("type", type);
+            }
             el.setAttribute("name", name);
             createLabel(name, `${name}`)
             form.appendChild(el);
         }
 
-        return { createFormItem };
+        // Create overlay container for buttons
+        const btnContainer = document.createElement("div");
+        btnContainer.classList.add("btn-overlay-container");
+        overlayContent.appendChild(btnContainer);
+        
+        // Create button for add to-do overlay
+        const createFormBtn = (text) => {
+            const btn = document.createElement("button");
+            btn.setAttribute("type", "button");
+            btn.setAttribute("id", `btn-overlay-${text.toLowerCase()}`);
+            btn.classList.add("btn-overlay");
+            btn.textContent = text;
+            btnContainer.appendChild(btn);
+        }
+
+        return { createFormItem, createFormBtn };
     }
 
-    const example = Form();
-    example.createFormItem("input", "input", "Text");
-    example.createFormItem("input", "phone", "Phone");
+    function createToDoOverlay() {
+        handleOverlay();
+        const addToDoForm = Form();
+        addToDoForm.createFormItem("input", "Title", "input");
+        addToDoForm.createFormItem("textarea", "Description");
+        addToDoForm.createFormItem("input", "date", "date");
+        addToDoForm.createFormBtn("Cancel");
+        addToDoForm.createFormBtn("Add");
+
+        const handleBtns = () => {
+            const cancelBtn = document.querySelector("#btn-overlay-cancel");
+            // When cancel is clicked, remove overlay-container-show class
+            cancelBtn.addEventListener('click', () => {
+                if (overlayContainer.classList.contains("overlay-container-show")) {
+                    overlayContainer.classList.remove("overlay-container-show");
+                }
+            })
+        }
+
+        handleBtns();
+    }
+
+    createToDoOverlay();
+    
 }
 
 // This will handle our to-do items
-function handleToDo() { 
+function handleToDo() {
 
     const toDoList = [];    // Store our to-do
 
