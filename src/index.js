@@ -37,16 +37,26 @@ function handleToDo() {
             const todoContainer = document.createElement("div");
             const ti = document.createElement("p");
             const desc = document.createElement("p");
+            const du = document.createElement("p");
+            const removeButton = document.createElement("button");
 
             todoContainer.classList.add("todo");
             todoContainer.setAttribute("id", `todo-${id}`);
 
             ti.innerText = title;
             desc.innerText = description;
+            du.innerText = due;
+            removeButton.innerText = "Del";
 
             todoContainer.appendChild(ti);
             todoContainer.appendChild(desc);
+            todoContainer.appendChild(du);
+            todoContainer.appendChild(removeButton);
             mainContent.appendChild(todoContainer);
+
+            removeButton.addEventListener('click', () => {
+                todoContainer.remove(`todo-${id}`);
+            })
         }
         return { getTitle, getDescription, getDue, displayToDo };
     };
@@ -89,6 +99,8 @@ function handleForm() {
             label.setAttribute("for", labelFor);
             label.textContent = `${labelText}: `;
             formCreate.appendChild(label);
+
+            return label;
         }
 
         // Create form element
@@ -99,8 +111,14 @@ function handleForm() {
             }
             el.setAttribute("name", name);
             el.setAttribute("id", `add-todo-${name.toLowerCase()}`);
-            createLabel(name, `${name}`)
-            formCreate.appendChild(el);
+
+            // if checkbox, append inside label
+            if (type === "checkbox") {
+                createLabel(name, `${name}`).appendChild(el);
+            } else {
+                createLabel(name, `${name}`)
+                formCreate.appendChild(el);
+            }
         }
 
         // Create overlay container for buttons
@@ -130,7 +148,8 @@ function handleForm() {
         const addToDoForm = Form();
         addToDoForm.createFormItem("input", "Title", "input");
         addToDoForm.createFormItem("textarea", "Description");
-        addToDoForm.createFormItem("input", "date", "date");
+        addToDoForm.createFormItem("input", "Date", "date");
+        addToDoForm.createFormItem("input", "Urgent", "checkbox");
         addToDoForm.createFormBtn("Cancel");
         addToDoForm.createFormBtn("Add");
 
@@ -159,19 +178,21 @@ function handleForm() {
                 // pass form data
                 const title = form.elements['add-todo-title'];
                 const description = form.elements['add-todo-description'];
-                // let dueDate = form.elements['add-todo-date'];
+                const dueDate = form.elements['add-todo-date'];
+                const date = new Date(dueDate.value).toLocaleDateString('en-US');
+
 
                 // hold our user to-dos
                 const todoItem = {}
 
                 // create object with key of count and value of to-do object
-                todoItem[count] = handleToDo().ToDo(title.value, description.value).displayToDo(count);
+                todoItem[count] = handleToDo().ToDo(title.value, description.value, date).displayToDo(count);
                 toDoList.push(todoItem[count]);
             
                 // clear form input
                 title.value = "";
                 description.value = "";
-                // dueDate.value = ""
+                dueDate.value = "";
 
                 // increase counter by 1
                 count++;
