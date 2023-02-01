@@ -35,7 +35,7 @@ ul {
     padding: 3rem;
 }
 
-li#nav-item {
+li.nav-item {
     list-style: none;
     padding: .5rem;
 }
@@ -58,6 +58,10 @@ button#btn-add-todo {
 .todo {
     display: flex;
     gap: 1rem;
+}
+
+.todo-urgent {
+    background-color: red;
 }
 
 /****ADD TODO OVERLAY****/

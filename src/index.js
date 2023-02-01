@@ -1,10 +1,11 @@
 // NEXT STEPS:
     // Update to-do object
-        // Add due date prop and priority prop
+        // Add due date prop and priority prop ✅
         // Add a completed check
             // When clicked, task display does something to indicate it has been completed
-        // Add remove button
-            // When clicked, removes task from display/array
+        // Add remove button ✅
+            // When clicked, removes task from display ✅
+            // When clicked, remove object from todoList array
     // Update to-do form
         // Update form to have required to-do properties ✅
         // Create form submit button ✅
@@ -15,6 +16,14 @@
     // Create add to-do button functionality
         // When add to-do button is clicked, display the to-do form overlay ✅
         // Once the to-do form add button is clicked or the cancel button is clicked, remove overlay ✅
+    // Clean code up a bit 
+    // Need to add form validation
+        // if no inputs, respond with error message
+        // adjust inputs so they are consistent
+    // Filter to-dos by date
+        // Home should show all to-dos
+        // Today should show to-dos with same day date
+        // Week should show to-dos within week of due date M-Sun
 
 
 import "./style.css";
@@ -22,18 +31,19 @@ import "./style.css";
 const content = document.querySelector(".content");
 const mainContent = document.querySelector(".main-content");
 
-// Store our to-do objects
-const toDoList = [];
+const todos = [];
 
 // This will handle our to-do items
 function handleToDo() {
 
-    const ToDo = (title, description, due) => {  // Create to do object           
+    const ToDo = (id, title, description, due, urgent) => {  // Create to do object      
         const getTitle = () => title;
         const getDescription = () => description;
         const getDue = () => due;
 
-        const displayToDo = (id) => {
+        todos.push({ id, title, description, due, urgent });
+
+        const displayToDo = () => {
             const todoContainer = document.createElement("div");
             const ti = document.createElement("p");
             const desc = document.createElement("p");
@@ -53,11 +63,24 @@ function handleToDo() {
             todoContainer.appendChild(du);
             todoContainer.appendChild(removeButton);
             mainContent.appendChild(todoContainer);
+            
+            if (urgent === true) {
+                todoContainer.classList.add("todo-urgent");
+            }
 
             removeButton.addEventListener('click', () => {
                 todoContainer.remove(`todo-${id}`);
+
+                // iterate through todos array backwards and splice item with matching id
+                for (let i = todos.length - 1; i >= 0; --i) {
+                    if (todos[i].id === id) {
+                        todos.splice(i,1);
+                    }
+                }
+                console.log(todos);
             })
         }
+
         return { getTitle, getDescription, getDue, displayToDo };
     };
 
@@ -164,12 +187,10 @@ function handleForm() {
                 }
             })
 
-            // Create counter
+            // will hold count of added items
             let count = 0;
-
             // When add button is clicked: 
                 // pass information and create to-do object
-                // push object into to-do array
                 // display to-do object
             addBtn.addEventListener('click', () => {
                 // select form
@@ -179,23 +200,20 @@ function handleForm() {
                 const title = form.elements['add-todo-title'];
                 const description = form.elements['add-todo-description'];
                 const dueDate = form.elements['add-todo-date'];
+                const urgent = form.elements['add-todo-urgent'];
                 const date = new Date(dueDate.value).toLocaleDateString('en-US');
 
+                // Pass values to create todo
+                handleToDo().ToDo(count, title.value, description.value, date, urgent.checked).displayToDo();
 
-                // hold our user to-dos
-                const todoItem = {}
-
-                // create object with key of count and value of to-do object
-                todoItem[count] = handleToDo().ToDo(title.value, description.value, date).displayToDo(count);
-                toDoList.push(todoItem[count]);
-            
                 // clear form input
                 title.value = "";
                 description.value = "";
                 dueDate.value = "";
+                urgent.checked = false;
 
-                // increase counter by 1
                 count++;
+        
                 // remove overlay-container-show class to remove overlay
                 if (overlayContainer.classList.contains("overlay-container-show")) {
                     overlayContainer.classList.remove("overlay-container-show");
