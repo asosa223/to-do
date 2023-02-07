@@ -18,6 +18,8 @@ header.banner {
     display: flex;
     align-items: center;
     padding: 1rem;
+    background-color: #2A2C24;
+    color: #F5F5F5;
 }
 
 /****NAVIGATION****/
@@ -27,28 +29,47 @@ nav.sidebar {
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+    background-color: #E0E0E0;
 }
 
 ul {
     display: flex;
     flex-direction: column;
     padding: 3rem;
+    gap: 1rem;
 }
 
 li.nav-item {
     list-style: none;
     padding: .5rem;
+    cursor: pointer;
 }
 
-button#btn-add-todo {
-    margin: 2rem;
-    padding: 1rem;
+button.btn-add-todo {
+    background-color: #2A2C24;
+    color: #F5F5F5;
+    margin: 0 4rem 1rem 0;
+    padding: 1.6rem;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    border: none;
+    font-size: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: rgb(0 0 0 / 25%) 2.4px 2.4px 3.2px;
+}
+
+button.btn-add-todo-hide {
+    display: none;
 }
 
 /****MAIN CONTENT****/
 .main-content-container {
     grid-area: main;
     padding: 1rem;
+    background-color: #F5F5F5;
 }
 
 .main-content {
@@ -58,6 +79,8 @@ button#btn-add-todo {
 .todo {
     display: flex;
     gap: 1rem;
+    background-color: #E0E0E0;
+    padding: 1rem;
 }
 
 .todo-urgent {
